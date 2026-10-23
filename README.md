@@ -15,3 +15,20 @@ This is a binary classification problem:
 
 ## Citation
 England football results betting odds: Premiership results & betting odds (2026) Football Betting - Football Results - Free Bets. Available at: https://football-data.co.uk/englandm.php (Accessed: 25 September 2026). 
+
+## Features
+1. Recent average goals scored
+2. Whether the team is playing at home or away
+3. The teams average number of shots in recent games
+4. The teams average number of shots on target in recent games
+5. The opponents defensive record
+6. The teams Head to Head history against their opponent
+
+
+
+
+
+
+
+
+
