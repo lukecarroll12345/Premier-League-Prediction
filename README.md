@@ -24,7 +24,12 @@ During the audit of my data, there is clearly a lot of missing values, with some
 However, for one of the games, I saw that the away shots on target was greater than the away shots. This is obviously impossible so it is incorrect information. But since I'm only predicting whether the home team will score 2 or more goals in a game, I don't have to worry about this incorrect value.
 
 ## Split
-In my dataset, 
+In my dataset, every match appeared twice, first looking at the home team, then the away team. Since I'm only predicting whether a home team will score 2 or more goals in a game, I filtered my data set to only contain the data on the team playing at home.
+I then wanted to make a function to that would compute the average goals, shots and shots on target by each team in their last 5 games. So first I sorted each team, so the goals scored by each team didn't get mixed up. I couldn't find a function in the notes that computed average so Ai assistance was used creating the function. Although, all the averages are computed then, test set included, shift(1) ensures that when making a prediction for a game, it can only see the results of the games before that game.
+The split was then done by season, since there is 5 total season in my dataset, I did my split by date, sorting the first 3 seasons into training, 1 season into validation and 1 season into test.
+
+## Baseline
+My Dummy baseline looks at what occurs more often, a team scores 2+ goals or it doesn't. A team scoring 2+ goals happens more often so it predicts this every time for the validation set and gets it right roughly 55.5% of the time
 
 
 
