@@ -41,6 +41,9 @@ I used AI (Claude) to help with the pandas rolling averages function (shift and 
 2. Open `Split_and_Baseline.ipynb` in Jupyter Notebook or JupyterLab.
 3. Click **Kernel → Restart & Run All** to run the entire notebook from top to bottom.
 
+## Repository link
+https://github.com/lukecarroll12345/Premier-League-Prediction
+
 
 
 
