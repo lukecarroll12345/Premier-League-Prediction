@@ -35,7 +35,7 @@ My Dummy baseline looks at what occurs more often, a team scores 2+ goals or it 
 While Logistic Regression improved the accuracy to 58.68% and the ROC-AUC to 60.06%, it successfully achieved an F1 score of 0.478 for the positive class. This suggests the model is actively identifying high scoring games rather than just relying on the majority class.
 
 ## Assistance Declaration
-I used AI (Claude) to help with the pandas rolling averages function (shift and rolling) and to ensure the scikit-learn pipeline was set up correctly to prevent leakage. All code was reviewed and understood by me. 
+I used AI (Claude) to help with the pandas rolling averages function (shift and rolling) and to ensure the scikit-learn pipeline was set up correctly to prevent leakage. It was also used to assist with indexing and small sections of code throughout the project. All code was reviewed and understood by me. 
 
 ## Setup and Run Instructions
 
