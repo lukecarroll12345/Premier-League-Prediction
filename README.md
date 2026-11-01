@@ -29,10 +29,13 @@ I then wanted to make a function that would compute the average goals, shots and
 The split was then done by season, since there is 5 total season in my dataset, I did my split by date, sorting the first 3 seasons into training, 1 season into validation and 1 season into test.
 
 ## Baseline
-My Dummy baseline looks at what occurs more often, a team scores 2+ goals or it doesn't. A team scoring 2+ goals happens more often so it predicts this every time for the validation set and gets it right roughly 55.5% of the time
+My Dummy baseline looks at what occurs more often, a team scores 2+ goals or it doesn't. A team scoring less than 2 goals is the majority class. A team scoring less than 2 goals happens more often so it predicts this every time for the validation set and gets it right roughly 55.5% of the time. There is a Dummy ROC-AUC of 50% because it assigns the same probability to every match.
+
+## Logistic regression
+While Logistic Regression improved the accuracy to 58.68% and the ROC-AUC to 60.06%, it successfully achieved an F1 score of 0.478 for the positive class. This suggests the model is actively identifying high scoring games rather than just relying on the majority class.
 
 ## Assistance Declaration
-I used AI (Claude) to help with the pandas rolling averages function (shift and rolling) and to ensure the scikit-learn pipeline was set up correctly to prevent leakage. All code was reviewed and understood by me.
+I used AI (Claude) to help with the pandas rolling averages function (shift and rolling) and to ensure the scikit-learn pipeline was set up correctly to prevent leakage. All code was reviewed and understood by me. 
 
 ## Setup and Run Instructions
 
