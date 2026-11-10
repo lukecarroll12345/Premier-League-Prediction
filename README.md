@@ -34,6 +34,32 @@ My Dummy baseline looks at what occurs more often, a team scores 2+ goals or it 
 ## Logistic regression
 While Logistic Regression improved the accuracy to 58.68% and the ROC-AUC to 60.06%, it successfully achieved an F1 score of 0.478 for the positive class. This suggests the model is actively identifying high scoring games rather than just relying on the majority class.
 
+## Model comparison: 3 features (own attack only)
+
+The first comparison used three features: the home team's average goals, shots and shots on target over their previous
+5 home games. All models were evaluated with time-ordered cross-validation (`TimeSeriesSplit`, 5 folds) on the training
+seasons (2021/22 to 2023/24), using ROC-AUC as the main metric. The dummy baseline scored an accuracy of 0.519 and a
+ROC-AUC of 0.500. Every learned model beat it on ROC-AUC, but only by small margins. Logistic Regression performed best
+(ROC-AUC 0.601, accuracy 0.593, F1 0.446) and was also the most stable across folds (standard deviation 0.030). Random
+Forest (ROC-AUC 0.583, std 0.050) and Gradient Boosting (0.569, std 0.039) came next, and k-NN was barely above the
+baseline (0.540, std 0.045). The two tree ensembles and k-NN had slightly higher F1 scores (about 0.47) than Logistic
+Regression, meaning they predicted the "2+ goals" class more often, but at the cost of accuracy. The more complex models
+did not beat the simple one, and the Random Forest was much slower to fit. A likely reason is that these features only
+describe the home team's own attacking form, which carries little signal.
+
+## Model comparison: 5 features (adding the opponent's defensive record)
+
+The second comparison added two features: the opponent's average goals conceded and shots on target conceded over their
+previous 5 away games. These use only matches played before the one being predicted (using `shift(1)`), so they do not
+leak future information. The same models, settings and cross validation folds were used, so the only difference
+is the features. ROC-AUC improved for all four learned models: Logistic Regression rose from 0.601 to 0.633, k-NN from
+0.540 to 0.575, Random Forest from 0.583 to 0.602 and Gradient Boosting from 0.569 to 0.582. F1 also improved for every
+model (for example Logistic Regression from 0.446 to 0.548), while accuracy changed very little, and was flat or
+slightly lower for Random Forest and Gradient Boosting. Because the improvement appears across all models, it is unlikely
+to be a fluke, which supports the idea that the opponent's defence adds useful information. However, the fold-to-fold
+standard deviations (0.03 to 0.05) are similar in size to the gains, so the size of each improvement is uncertain.
+Logistic Regression remained the best model, and the 5-feature set was used for all later tuning and validation.
+
 ## Tuning
 
 Each model was tuned with `GridSearchCV` on the training seasons only (2021/22-2023/24), using the same time-ordered
@@ -48,8 +74,26 @@ Each model was tuned with `GridSearchCV` on the training seasons only (2021/22-2
 
 Tuning helped the three more flexible models, and in each case it did so by choosing simpler, more heavily regularised
 settings (larger k, shallower trees, a slower learning rate), which suits a noisy problem with few features. Logistic
-regression barely changed. The gains are similar in size to the fold-to-fold standard deviation (0.03-0.05), so they
+regression barely changed. The gains are similar in size to the fold to fold standard deviation (0.03-0.05), so they
 should be seen as modest.
+
+## Validation results and confusion matrices (2024/25 season)
+
+| Model | Accuracy | F1 | ROC-AUC |
+|---|---|---|---|
+| Dummy baseline | 0.555 | 0.000 | 0.500 |
+| Logistic Regression | 0.571 | 0.486 | 0.610 |
+| Random Forest (tuned) | 0.582 | 0.482 | 0.603 |
+| k-NN (tuned) | 0.555 | 0.513 | 0.567 |
+| Gradient Boosting (tuned) | 0.579 | 0.433 | 0.579 |
+
+Logistic Regression had the best ROC-AUC (0.610) and was the most stable between cross validation (0.634) and
+validation. The tuned Gradient Boosting dropped the most (0.632 to 0.579), which suggests its tuned settings were
+somewhat over-fitted to the training folds. All models beat the baseline on ROC-AUC, but accuracy gains over the
+majority class baseline are small. The confusion matrix for Logistic Regression shows a conservative model: it
+identifies low scoring games well (140 true negatives) but misses many high-scoring ones (92 false negatives),
+because "fewer than 2 goals" is the majority class. Logistic Regression remains the preferred model. Predicting
+whether a team scores 2+ goals is difficult because of match randomness and the limits of rolling average features.
 
 ## Assistance Declaration
 I used AI (Claude) to help with the pandas rolling averages function (shift and rolling) and to ensure the scikit-learn pipeline was set up correctly to prevent leakage. It was also used to assist with indexing and small sections of code throughout the project. All code was reviewed and understood by me. 
