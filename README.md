@@ -34,6 +34,23 @@ My Dummy baseline looks at what occurs more often, a team scores 2+ goals or it 
 ## Logistic regression
 While Logistic Regression improved the accuracy to 58.68% and the ROC-AUC to 60.06%, it successfully achieved an F1 score of 0.478 for the positive class. This suggests the model is actively identifying high scoring games rather than just relying on the majority class.
 
+## Tuning
+
+Each model was tuned with `GridSearchCV` on the training seasons only (2021/22-2023/24), using the same time-ordered
+`TimeSeriesSplit` (5 folds) and ROC-AUC as the metric, on the 5-feature set. The validation and test seasons were not used.
+
+| Model | CV ROC-AUC before | CV ROC-AUC after | Selected settings |
+|---|---|---|---|
+| Logistic Regression | 0.633 | 0.634 | C=0.1 (default C=1.0 kept, as the gain is negligible) |
+| Random Forest | 0.602 | about 0.62 | shallow trees (max_depth 4-6), min_samples_leaf=10, 100 trees |
+| k-NN | 0.575 | 0.602 | k=21, Manhattan distance (p=1), uniform weights |
+| Gradient Boosting | 0.582 | 0.632 | learning_rate=0.01, max_depth=1, 200 trees |
+
+Tuning helped the three more flexible models, and in each case it did so by choosing simpler, more heavily regularised
+settings (larger k, shallower trees, a slower learning rate), which suits a noisy problem with few features. Logistic
+regression barely changed. The gains are similar in size to the fold-to-fold standard deviation (0.03-0.05), so they
+should be seen as modest.
+
 ## Assistance Declaration
 I used AI (Claude) to help with the pandas rolling averages function (shift and rolling) and to ensure the scikit-learn pipeline was set up correctly to prevent leakage. It was also used to assist with indexing and small sections of code throughout the project. All code was reviewed and understood by me. 
 
