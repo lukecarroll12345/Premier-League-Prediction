@@ -68,7 +68,7 @@ Each model was tuned with `GridSearchCV` on the training seasons only (2021/22-2
 | Model | CV ROC-AUC before | CV ROC-AUC after | Selected settings |
 |---|---|---|---|
 | Logistic Regression | 0.633 | 0.634 | C=0.1 (default C=1.0 kept, as the gain is negligible) |
-| Random Forest | 0.602 | about 0.62 | shallow trees (max_depth 4-6), min_samples_leaf=10, 100 trees |
+| Random Forest | 0.602 | about 0.621 | shallow trees (max_depth 6), min_samples_leaf=10, 100 trees |
 | k-NN | 0.575 | 0.602 | k=21, Manhattan distance (p=1), uniform weights |
 | Gradient Boosting | 0.582 | 0.632 | learning_rate=0.01, max_depth=1, 200 trees |
 
@@ -83,7 +83,7 @@ should be seen as modest.
 |---|---|---|---|
 | Dummy baseline | 0.555 | 0.000 | 0.500 |
 | Logistic Regression | 0.571 | 0.486 | 0.610 |
-| Random Forest (tuned) | 0.582 | 0.482 | 0.603 |
+| Random Forest (tuned) | 0.571 | 0.489 | 0.589 |
 | k-NN (tuned) | 0.555 | 0.513 | 0.567 |
 | Gradient Boosting (tuned) | 0.579 | 0.433 | 0.579 |
 
