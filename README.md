@@ -45,7 +45,7 @@ Forest (ROC-AUC 0.583, std 0.050) and Gradient Boosting (0.569, std 0.039) came 
 baseline (0.540, std 0.045). The two tree ensembles and k-NN had slightly higher F1 scores (about 0.47) than Logistic
 Regression, meaning they predicted the "2+ goals" class more often, but at the cost of accuracy. The more complex models
 did not beat the simple one, and the Random Forest was much slower to fit. A likely reason is that these features only
-describe the home team's own attacking form, which carries little signal.
+describe the home team's own attacking form, which carries little predictive ability.
 
 ## Model comparison: 5 features (adding the opponent's defensive record)
 
@@ -94,6 +94,20 @@ majority class baseline are small. The confusion matrix for Logistic Regression 
 identifies low scoring games well (140 true negatives) but misses many high-scoring ones (92 false negatives),
 because "fewer than 2 goals" is the majority class. Logistic Regression remains the preferred model. Predicting
 whether a team scores 2+ goals is difficult because of match randomness and the limits of rolling average features.
+
+## Conclusion on models
+The current best model is Logistic Regression using the five features (the home team's recent goals, shots and shots
+on target, plus the opponent's recent goals and shots on target conceded). It had the highest cross validation
+ROC-AUC (0.633) and the highest validation ROC-AUC (0.610), and it was the most stable between the two, whereas the
+tuned Gradient Boosting dropped from 0.632 to 0.579. Adding the opponent's defensive record improved every model,
+and tuning gave only modest gains, so the more flexible models never clearly beat the simple one.
+
+The main limitations are 
+1. The features carry limited predictive information (ROC-AUC around 0.61, and accuracy only slightly above the majority class baseline).
+2. The model is conservative and misses many high-scoring games
+3. The features are rolling averages that ignore other factors such as injuries, lineups and home advantage.
+4. The validation season is also small (about 380 matches), so differences between the top models are within the noise.
+
 
 ## Assistance Declaration
 I used AI (Claude) to help with the pandas rolling averages function (shift and rolling) and to ensure the scikit-learn pipeline was set up correctly to prevent leakage. It was also used to assist with indexing and small sections of code throughout the project. All code was reviewed and understood by me. 
