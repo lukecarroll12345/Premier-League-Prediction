@@ -109,7 +109,7 @@ Ideally, this would've been added before I did the tuning and confusion matrices
 ## Conclusion on models
 The current best model is Logistic Regression using the six features. It achieved the highest cross-validation ROC-AUC (0.655) and a strong validation ROC-AUC (0.641). Random Forest performed almost identically on the validation set (ROC-AUC 0.637) and actually scored slightly higher on F1 (0.570 vs 0.553), showing that it handles the minority class just as well. However, Logistic Regression is kept as the preferred model because it is simpler, faster, and more stable between cross-validation and validation. Adding the defensive record and strength difference improved every model, meaning the more complex models never clearly beat the simple one.
 
-# The main limitation are:
+### The main limitation are:
 - The features still carry little predictive imformation
 - Although there was an improvement after adding the 6th feature, the model still misses many high scoring games (77 false negatives in the validation set)
 - The features are rolling averages that ignore real world problems such as injuries and mid season transfers.
