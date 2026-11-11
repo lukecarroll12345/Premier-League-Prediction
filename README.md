@@ -37,7 +37,7 @@ While Logistic Regression improved the accuracy to 58.68% and the ROC-AUC to 60.
 ## Model comparison: 3 features (own attack only)
 
 The first comparison used three features: the home team's average goals, shots and shots on target over their previous
-5 home games. All models were evaluated with time-ordered cross-validation (`TimeSeriesSplit`, 5 folds) on the training
+5 home games. All models were evaluated with time-ordered cross validation (TimeSeriesSplit, 5 folds) on the training
 seasons (2021/22 to 2023/24), using ROC-AUC as the main metric. The dummy baseline scored an accuracy of 0.519 and a
 ROC-AUC of 0.500. Every learned model beat it on ROC-AUC, but only by small margins. Logistic Regression performed best
 (ROC-AUC 0.601, accuracy 0.593, F1 0.446) and was also the most stable across folds (standard deviation 0.030). Random
@@ -50,7 +50,7 @@ describe the home team's own attacking form, which carries little predictive abi
 ## Model comparison: 5 features (adding the opponent's defensive record)
 
 The second comparison added two features: the opponent's average goals conceded and shots on target conceded over their
-previous 5 away games. These use only matches played before the one being predicted (using `shift(1)`), so they do not
+previous 5 away games. These use only matches played before the one being predicted (using shift(1)), so they do not
 leak future information. The same models, settings and cross validation folds were used, so the only difference
 is the features. ROC-AUC improved for all four learned models: Logistic Regression rose from 0.601 to 0.633, k-NN from
 0.540 to 0.575, Random Forest from 0.583 to 0.602 and Gradient Boosting from 0.569 to 0.582. F1 also improved for every
@@ -62,8 +62,8 @@ Logistic Regression remained the best model, and the 5-feature set was used for 
 
 ## Tuning
 
-Each model was tuned with `GridSearchCV` on the training seasons only (2021/22-2023/24), using the same time-ordered
-`TimeSeriesSplit` (5 folds) and ROC-AUC as the metric, on the 5-feature set. The validation and test seasons were not used.
+Each model was tuned with GridSearchCV on the training seasons only (2021/22-2023/24), using the same time-ordered
+TimeSeriesSplit (5 folds) and ROC-AUC as the metric, on the 5-feature set. The validation and test seasons were not used.
 
 | Model | CV ROC-AUC before | CV ROC-AUC after | Selected settings |
 |---|---|---|---|
@@ -121,7 +121,7 @@ The current best model is Logistic Regression using the six features. It achieve
 - I used AI to find the specific code for plotting a confusion matrix, as the specific code for plotting wasn't provided in the notes.
 - We spent a lot of time on error analysis in class and had a lot of material in the lecture notes which gave me a great understanding of error analysis for my project.
 - - I then used AI to help with some ideas of code structures for grouping the misclassified matches (e.g., using pd.qcut to slice by "attack form" and "opponent defence").
-- I Used an AI assistant to help construct the `Strength_diff` feature. Specifically, the  `.transform('sum')` method to calculate total match goals (and thus goals conceded) for each team row was not covered in the lecture materials."
+- I Used an AI assistant to help construct the Strength_diff feature. Specifically, the  .transform('sum') method to calculate total match goals (and thus goals conceded) for each team row was not covered in the lecture materials."
 All code was reviewed and understood by me. 
 
 ## Setup and Run Instructions
