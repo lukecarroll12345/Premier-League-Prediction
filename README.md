@@ -117,7 +117,10 @@ The current best model is Logistic Regression using the six features. It achieve
 
 
 ## Assistance Declaration
-I used AI (Claude) to help with the pandas rolling averages function (shift and rolling) and to ensure the scikit-learn pipeline was set up correctly to prevent leakage. It was also used to assist with indexing and small sections of code throughout the project. All code was reviewed and understood by me. 
+I used AI (Claude) to help with the pandas rolling averages function (shift and rolling) and to ensure the scikit-learn pipeline was set up correctly to prevent leakage. It was also used to assist with indexing and small sections of code throughout the project. 
+I used AI to find the specific code for plotting a confusion matrix, as the specific code for plotting wasn't provided in the notes.
+We spent a lot of time on error analysis in class and had a lot of material in the lecture notes which gave me a great understanding of error analysis for my project. I then used AI to help with some ideas of code structures for grouping the misclassified matches (e.g., using pd.qcut to slice by "attack form" and "opponent defence")
+All code was reviewed and understood by me. 
 
 ## Setup and Run Instructions
 
