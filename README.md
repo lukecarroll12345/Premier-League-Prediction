@@ -108,6 +108,14 @@ The main limitations are
 3. The features are rolling averages that ignore other factors such as injuries, lineups and home advantage.
 4. The validation season is also small (about 380 matches), so differences between the top models are within the noise.
 
+## Error Analysis
+The error analysis focuses on the best model, Logistic Regression, on the 2024/25 validation season. The confusion matrix showed that it is conservative: it correctly identified 140 low-scoring matches but missed 92 matches where the home side scored 2+ goals. It therefore under-detects high-scoring games.
+
+Once I split the matches by feature values we can see where it goes wrong. When the home team’s recent scoring form is low, the model predicted 2+ goals in only 16% of matches, but 39% actually had them. When form is high, it predicted 2+ goals in 70% of matches, but only 51% had them. The model’s predictions are more extreme than reality, which suggests the rolling averages carry only a weak signal. Accuracy was lowest (49.6%) for mid-form teams, which is roughly a coin flip. Accuracy also fell as the opponent’s defence got weaker, from 60.9% against teams conceding few goals to 50.8% against teams conceding many. The model could tell that a weak defence raises scoring chances, but not which of those matches would actually produce 2+ goals.
+
+The largest misses were high-scoring matches (4 to 7 goals), such as Nottingham Forest vs Brighton (7 goals) and Man City vs Crystal Palace (5 goals), where the home side’s recent averages were modest (1.6 and 2.2 goals). These are rare, high variance results that rolling averages from the previous five games cannot anticipate.
+
+
 
 ## Assistance Declaration
 I used AI (Claude) to help with the pandas rolling averages function (shift and rolling) and to ensure the scikit-learn pipeline was set up correctly to prevent leakage. It was also used to assist with indexing and small sections of code throughout the project. All code was reviewed and understood by me. 
