@@ -31,7 +31,7 @@ The split was then done by season, since there is 5 total season in my dataset, 
 ## Baseline
 My Dummy baseline looks at what occurs more often, a team scores 2+ goals or it doesn't. A team scoring less than 2 goals is the majority class. A team scoring less than 2 goals happens more often so it predicts this every time for the validation set and gets it right roughly 55.5% of the time. There is a Dummy ROC-AUC of 50% because it assigns the same probability to every match.
 
-## Logistic regression
+## Logistic regression (Milestone 2 result)
 While Logistic Regression improved the accuracy to 58.68% and the ROC-AUC to 60.06%, it successfully achieved an F1 score of 0.478 for the positive class. This suggests the model is actively identifying high scoring games rather than just relying on the majority class.
 
 ## Model comparison: 3 features (own attack only)
@@ -68,7 +68,7 @@ TimeSeriesSplit (5 folds) and ROC-AUC as the metric, on the 5-feature set. The v
 | Model | CV ROC-AUC before | CV ROC-AUC after | Selected settings |
 |---|---|---|---|
 | Logistic Regression | 0.633 | 0.634 | C=0.1 (default C=1.0 kept, as the gain is negligible) |
-| Random Forest | 0.602 | about 0.621 | shallow trees (max_depth 6), min_samples_leaf=10, 100 trees |
+| Random Forest | 0.602 | about 0.621 | shallow trees (max_depth 4), min_samples_leaf=10, 500 trees |
 | k-NN | 0.575 | 0.602 | k=21, Manhattan distance (p=1), uniform weights |
 | Gradient Boosting | 0.582 | 0.632 | learning_rate=0.01, max_depth=1, 200 trees |
 
@@ -107,11 +107,11 @@ The largest misses were high-scoring matches (4 to 7 goals), such as Nottingham 
 Ideally, this would've been added before I did the tuning and confusion matrices, however, the idea for adding this feature only came when I looked at the errors on the validation set. Adding the team strength difference feature improved Logistic Regression on the validation season. Accuracy rose from 0.571 to 0.613, F1 from 0.486 to 0.553 and ROC-AUC from 0.610 to 0.641. The confusion matrix shows fewer missed high-scoring games (false negatives fell from 92 to 78), so the model is less conservative than before. Random Forest improved by a similar amount (ROC-AUC 0.589 to 0.637). The two models are now almost level, with Random Forest slightly ahead on accuracy and F1 and Logistic Regression marginally ahead on ROC-AUC. The validation season therefore does not clearly separate them. Logistic Regression is kept as the preferred model because it is simpler, faster and easier to interpret, but the performance gap between the two is within noise.
 
 ## Conclusion on models
-The current best model is Logistic Regression using the six features. It achieved the highest cross-validation ROC-AUC (0.655) and a strong validation ROC-AUC (0.641). Random Forest performed almost identically on the validation set (ROC-AUC 0.637) and actually scored slightly higher on F1 (0.570 vs 0.553), showing that it handles the minority class just as well. However, Logistic Regression is kept as the preferred model because it is simpler, faster, and more stable between cross-validation and validation. Adding the defensive record and strength difference improved every model, meaning the more complex models never clearly beat the simple one.
+The current best model is Logistic Regression using the six features. It achieved the highest cross-validation ROC-AUC (0.655) and a strong validation ROC-AUC (0.641). Random Forest performed almost identically on the validation set (ROC-AUC 0.637) and actually scored slightly higher on F1 (0.570 vs 0.553), showing that it handles the minority class just as well. However, Logistic Regression is kept as the preferred model because it is simpler, faster, and more stable between cross-validation and validation. Adding the defensive record and strength difference improved every model, meaning the more complex models never clearly beat the simple one. I will next evaluate the chosen model on the 2025/2026 test set.
 
 ### The main limitations are:
 - The features still carry little predictive imformation
-- Although there was an improvement after adding the 6th feature, the model still misses many high scoring games (77 false negatives in the validation set)
+- Although there was an improvement after adding the 6th feature, the model still misses many high scoring games (78 false negatives in the validation set)
 - The features are rolling averages that ignore real world problems such as injuries and mid season transfers.
 - The validation set is small (380 matches), so the difference between the top performing models are within the noise.
 
@@ -128,7 +128,7 @@ All code was reviewed and understood by me.
 
 1. Install the required packages:
    pip install -r requirements.txt
-2. Open `Split_and_Baseline.ipynb` in Jupyter Notebook or JupyterLab.
+2. Open `Milestone_3.ipynb` in Jupyter Notebook or JupyterLab.
 3. Click **Kernel → Restart & Run All** to run the entire notebook from top to bottom.
 
 ## Repository link
