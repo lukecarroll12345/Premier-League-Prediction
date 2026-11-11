@@ -95,18 +95,6 @@ identifies low scoring games well (140 true negatives) but misses many high-scor
 because "fewer than 2 goals" is the majority class. Logistic Regression remains the preferred model. Predicting
 whether a team scores 2+ goals is difficult because of match randomness and the limits of rolling average features.
 
-## Conclusion on models
-The current best model is Logistic Regression using the five features (the home team's recent goals, shots and shots
-on target, plus the opponent's recent goals and shots on target conceded). It had the highest cross validation
-ROC-AUC (0.633) and the highest validation ROC-AUC (0.610), and it was the most stable between the two, whereas the
-tuned Gradient Boosting dropped from 0.632 to 0.579. Adding the opponent's defensive record improved every model,
-and tuning gave only modest gains, so the more flexible models never clearly beat the simple one.
-
-The main limitations are 
-1. The features carry limited predictive information (ROC-AUC around 0.61, and accuracy only slightly above the majority class baseline).
-2. The model is conservative and misses many high-scoring games
-3. The features are rolling averages that ignore other factors such as injuries, lineups and home advantage.
-4. The validation season is also small (about 380 matches), so differences between the top models are within the noise.
 
 ## Error Analysis
 The error analysis focuses on the best model, Logistic Regression, on the 2024/25 validation season. The confusion matrix showed that it is conservative: it correctly identified 140 low-scoring matches but missed 92 matches where the home side scored 2+ goals. It therefore under-detects high-scoring games.
@@ -117,6 +105,16 @@ The largest misses were high-scoring matches (4 to 7 goals), such as Nottingham 
 
 ## Goal difference feature
 Ideally, this would've been added before I did the tuning and confusion matrices, however, the idea for adding this feature only came when I looked at the errors on the validation set. Adding the team strength difference feature improved Logistic Regression on the validation season. Accuracy rose from 0.571 to 0.613, F1 from 0.486 to 0.553 and ROC-AUC from 0.610 to 0.641. The confusion matrix shows fewer missed high-scoring games (false negatives fell from 92 to 78), so the model is less conservative than before. Random Forest improved by a similar amount (ROC-AUC 0.589 to 0.637). The two models are now almost level, with Random Forest slightly ahead on accuracy and F1 and Logistic Regression marginally ahead on ROC-AUC. The validation season therefore does not clearly separate them. Logistic Regression is kept as the preferred model because it is simpler, faster and easier to interpret, but the performance gap between the two is within noise.
+
+## Conclusion on models
+The current best model is Logistic Regression using the six features. It achieved the highest cross-validation ROC-AUC (0.655) and a strong validation ROC-AUC (0.641). Random Forest performed almost identically on the validation set (ROC-AUC 0.637) and actually scored slightly higher on F1 (0.570 vs 0.553), showing that it handles the minority class just as well. However, Logistic Regression is kept as the preferred model because it is simpler, faster, and more stable between cross-validation and validation. Adding the defensive record and strength difference improved every model, meaning the more complex models never clearly beat the simple one.
+
+# The main limitation are:
+- The features still carry little predictive imformation
+- Although there was an improvement after adding the 6th feature, the model still misses many high scoring games (77 false negatives in the validation set)
+- The features are rolling averages that ignore real world problems such as injuries and mid season transfers.
+- The validation set is small (380 matches), so the difference between the top performing models are within the noise.
+
 
 ## Assistance Declaration
 I used AI (Claude) to help with the pandas rolling averages function (shift and rolling) and to ensure the scikit-learn pipeline was set up correctly to prevent leakage. It was also used to assist with indexing and small sections of code throughout the project. All code was reviewed and understood by me. 
