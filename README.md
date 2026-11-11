@@ -115,7 +115,8 @@ Once I split the matches by feature values we can see where it goes wrong. When 
 
 The largest misses were high-scoring matches (4 to 7 goals), such as Nottingham Forest vs Brighton (7 goals) and Man City vs Crystal Palace (5 goals), where the home side’s recent averages were modest (1.6 and 2.2 goals). These are rare, high variance results that rolling averages from the previous five games cannot anticipate.
 
-
+## Goal difference feature
+Ideally, this would've been added before I did the tuning and confusion matrices, however, the idea for adding this feature only came when I looked at the errors on the validation set. Adding the team strength difference feature improved Logistic Regression on the validation season. Accuracy rose from 0.571 to 0.613, F1 from 0.486 to 0.553 and ROC-AUC from 0.610 to 0.641. The confusion matrix shows fewer missed high-scoring games (false negatives fell from 92 to 78), so the model is less conservative than before. Random Forest improved by a similar amount (ROC-AUC 0.589 to 0.637). The two models are now almost level, with Random Forest slightly ahead on accuracy and F1 and Logistic Regression marginally ahead on ROC-AUC. The validation season therefore does not clearly separate them. Logistic Regression is kept as the preferred model because it is simpler, faster and easier to interpret, but the performance gap between the two is within noise.
 
 ## Assistance Declaration
 I used AI (Claude) to help with the pandas rolling averages function (shift and rolling) and to ensure the scikit-learn pipeline was set up correctly to prevent leakage. It was also used to assist with indexing and small sections of code throughout the project. All code was reviewed and understood by me. 
