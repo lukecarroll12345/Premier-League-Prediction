@@ -115,6 +115,21 @@ The current best model is Logistic Regression using the six features. It achieve
 - The features are rolling averages that ignore real world problems such as injuries and mid season transfers.
 - The validation set is small (380 matches), so the difference between the top performing models are within the noise.
 
+## Test Set Conclusion
+
+On the unseen 2025/26 season, Logistic Regression achieved an accuracy of 0.561, an F1 score of 0.473 and a ROC-AUC of 0.577. Random Forest achieved 0.545, 0.447 and 0.582 respectively. Both models beat the dummy baseline (ROC-AUC 0.500), so the features contain some real predictive signal, but the signal is weak.
+
+| Model | Accuracy | F1 | ROC-AUC |
+|---|---|---|---|
+| Dummy (baseline) | 0.516 | 0.000 | 0.500 |
+| Logistic Regression | 0.561 | 0.473 | 0.577 |
+| Random Forest | 0.545 | 0.447 | 0.582 |
+
+ROC-AUC was lower on the test set than in cross-validation (0.655) and on the validation season (0.641). This is likely due to a combination of chance (a single season is small and football results are noisy) and the fact that the features and models were selected using the earlier results, which makes those scores somewhat optimistic. The test score is the most realistic estimate of performance on new data.
+
+The two models are effectively tied (0.577 vs 0.582), so the test set does not clearly separate them. Logistic Regression is kept as the final model, as decided before testing, because it is simpler, faster and easier to interpret.
+
+Overall, the model is better than guessing but not reliable enough to predict individual matches. It should not be used for decisions such as betting.
 
 ## Assistance Declaration
 - I used AI (Claude) to help with the pandas rolling averages function (shift and rolling) and to ensure the scikit-learn pipeline was set up correctly to prevent leakage. It was also used to assist with indexing and small sections of code throughout the project. 
