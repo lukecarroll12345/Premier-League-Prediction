@@ -125,7 +125,7 @@ On the unseen 2025/26 season, Logistic Regression achieved an accuracy of 0.561,
 | Logistic Regression | 0.561 | 0.473 | 0.577 |
 | Random Forest | 0.545 | 0.447 | 0.582 |
 
-ROC-AUC was lower on the test set than in cross-validation (0.655) and on the validation season (0.641). This is likely due to a combination of chance (a single season is small and football results are noisy) and the fact that the features and models were selected using the earlier results, which makes those scores somewhat optimistic. The test score is the most realistic estimate of performance on new data.
+ROC-AUC was lower on the test set than in cross validation (0.655) and on the validation season (0.641). This is likely due to a combination of chance (a single season is small and football results are noisy) and the fact that the features and models were selected using the earlier results, which makes those scores somewhat optimistic. The test score is the most realistic estimate of performance on new data.
 
 The two models are effectively tied (0.577 vs 0.582), so the test set does not clearly separate them. Logistic Regression is kept as the final model, as decided before testing, because it is simpler, faster and easier to interpret.
 
