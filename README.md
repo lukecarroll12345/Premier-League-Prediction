@@ -106,6 +106,11 @@ The largest misses were high-scoring matches (4 to 7 goals), such as Nottingham 
 ## Goal difference feature
 Ideally, this would've been added before I did the tuning and confusion matrices, however, the idea for adding this feature only came when I looked at the errors on the validation set. Adding the team strength difference feature improved Logistic Regression on the validation season. Accuracy rose from 0.571 to 0.613, F1 from 0.486 to 0.553 and ROC-AUC from 0.610 to 0.641. The confusion matrix shows fewer missed high-scoring games (false negatives fell from 92 to 78), so the model is less conservative than before. Random Forest improved by a similar amount (ROC-AUC 0.589 to 0.637). The two models are now almost level, with Random Forest slightly ahead on accuracy and F1 and Logistic Regression marginally ahead on ROC-AUC. The validation season therefore does not clearly separate them. Logistic Regression is kept as the preferred model because it is simpler, faster and easier to interpret, but the performance gap between the two is within noise.
 
+## Error analysis (Logistic Regression, 6 features, validation 2024/25)
+- The model leans too heavily on team strength. It predicted 2+ goals for 88% of games with a stronger home team (actually 58%) and only 5% with a stronger away team (actually 34%).
+- It also overreacts to the opponent’s defence, over predicting 2+ goals against teams that concede many goals (59% predicted vs 50% actual).
+- The biggest misses are one-off high scoring games (4-7 goals) that rolling averages can’t anticipate.
+
 ## Conclusion on models
 The current best model is Logistic Regression using the six features. It achieved the highest cross-validation ROC-AUC (0.655) and a strong validation ROC-AUC (0.641). Random Forest performed almost identically on the validation set (ROC-AUC 0.637) and actually scored slightly higher on F1 (0.570 vs 0.553), showing that it handles the minority class just as well. However, Logistic Regression is kept as the preferred model because it is simpler, faster, and more stable between cross-validation and validation. Adding the defensive record and strength difference improved every model, meaning the more complex models never clearly beat the simple one. I will next evaluate the chosen model on the 2025/2026 test set.
 
